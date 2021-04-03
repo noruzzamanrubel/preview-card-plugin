@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Preview Card Widget
- * Plugin URI: 
+ * Plugin URI: https://github.com/noruzzamanrubel/preview-card-plugin
  * Description: A Preview Card elementor widget
  * Version: 1.0.0
  * Author: Noruzzaman Rubel
