@@ -887,6 +887,9 @@ class preview_Card_widget extends Widget_Base
         $button_target = $settings['button_link']['is_external'] ? ' target="_blank"' : '';
         $button_nofollow = $settings['button_link']['nofollow'] ? ' rel="nofollow"' : '';
 
+        $this->add_inline_editing_attributes( 'card_title' );
+        $this->add_inline_editing_attributes( 'item_description' );
+
         ?>
 
         <div class="image-card">
@@ -908,7 +911,7 @@ class preview_Card_widget extends Widget_Base
             <div class="content">
 
                 <div class="title">
-                    <h2><?php echo $settings['card_title']; ?></h2>
+                    <h2 <?php echo $this->get_render_attribute_string('card_title'); ?> ><?php echo $settings['card_title']; ?></h2>
                 </div>
 
                 <?php if ('yes' == $settings['show_divider']): ?>
@@ -916,7 +919,9 @@ class preview_Card_widget extends Widget_Base
                 <?php endif;?>
 
                 <div class="excerpt">
-                    <?php echo $settings['item_description'] ?>
+                    <div <?php echo $this->get_render_attribute_string('item_description'); ?> >
+                        <?php echo $settings['item_description'] ?>
+                    </div>
                 </div>
 
                 <div class="readmore">
@@ -931,7 +936,57 @@ class preview_Card_widget extends Widget_Base
         </div>
 
         <?php
-}
+    }
+
+    protected function _content_template() {
+        ?>
+        <#
+            var image_target = settings.image_link.is_external ? ' target="_blank"' : '';
+            var image_nofollow = settings.image_link.nofollow ? ' rel="nofollow"' : '';
+
+            var link_target = settings.button_link.is_external ? ' target="_blank"' : '';
+            var link_nofollow = settings.button_link.nofollow ? ' rel="nofollow"' : '';
+
+            view.addInlineEditingAttributes( 'card_title', 'none' );
+            view.addInlineEditingAttributes( 'item_description', 'none' );
+        #>
+        <div class="image-card">
+            <div class="image-wrapper">
+                <div class="image" style="background-image: url({{ settings.image.url }});">
+                    <# if( 'yes' === settings.show_image_link ) { #>
+                        <a href="{{ settings.image_link.url }}" {{ image_target }} {{ image_nofollow }}></a>
+                    <# } #>
+                    <# if( 'yes' === settings.show_top_badge ) { #>
+                        <span class="top-price-badge badge-blue">{{{ settings.top_badge_text }}}</span>
+                    <# } #>
+                    <# if( 'yes' === settings.show_middle_badge ) { #>
+                    <span class="middle-price-badge badge-blue">{{{ settings.middle_badge_text }}}</span>
+                    <# } #>
+                </div>
+            </div>
+            <div class="content">
+                <div class="title">
+                    <h2 {{{ view.getRenderAttributeString( 'card_title' ) }}} >{{{ settings.card_title }}}</h2>
+                </div>
+                <# if( 'yes' === settings.show_divider ) { #>
+                <div class="divider"></div>
+                <# } #>
+                <div class="excerpt">
+                    <div {{{ view.getRenderAttributeString( 'item_description' ) }}}>
+                        {{{ settings.item_description }}}
+                    </div>
+                </div>
+                <div class="readmore">
+                    <a href="{{ settings.button_link.url }}" {{ link_target }} {{ link_nofollow }} class="button button-readmore">{{{ settings.button_text }}}</a>
+                    <# if( 'yes' === settings.show_bottom_badge ) { #>
+                    <span class="bottom-price-badge badge-blue">{{{ settings.bottom_badge_text }}}</span>
+                    <# } #>
+                </div>
+            </div>
+        </div>
+
+        <?php
+    }
 
 }
 
