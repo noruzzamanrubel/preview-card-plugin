@@ -11,10 +11,7 @@
 
  if( ! defined( 'ABSPATH' ) ) exit();
 
- /**
- * Elementor Extension main CLass
- * @since 1.0.0
- */
+
 final class Preview_card_Elementor_Widget {
 
     // Plugin version
